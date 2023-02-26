@@ -1,6 +1,7 @@
 import torch
 from torch import nn
 import matplotlib.pyplot as plt
+from LinearRegressionModel import LRM
 
 # DATA: PREPARING AND LOADING
 
@@ -55,6 +56,40 @@ def plot_predictions(train_data=X_train,
     plt.show();
 
 # Build model
+
+torch.manual_seed(42)
+
+model_0 = LRM()
+
+with torch.inference_mode():
+    y_preds = model_0(X_test)
+
+plot_predictions(predictions=y_preds)
+
+# We need a loss function and an optimizer to start training
+# A loss function calculates how far off your model is from the desired output and the optimizer modifies the model to minimize the loss
+
+loss_fn = nn.L1Loss()
+
+optimizer = torch.optim.SGD(params=model_0.parameters(),
+                            lr=0.01)
+
+# Setup training loop
+#   0. Loop through data
+#   1. Forward pass
+#   2. Calculate the loss
+#   3. Optimizer zero grad
+#   4. Backward pass (backpropagation)
+#   5. Optimizer step (gradient descent)
+
+epochs = 1
+
+# 0. Loop
+for epoch in range(epochs):
+    # Set the model to training mode
+    model_0.train() # train mode in PyTorch sets all parameters that require gradients to require gradients
+
+    #
 
 
 
