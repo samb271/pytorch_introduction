@@ -54,6 +54,8 @@ def plot_predictions(train_data=X_train,
 
     plt.show();
 
-plot_predictions()
+# Build model
+
+
 
 
