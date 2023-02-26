@@ -61,11 +61,6 @@ torch.manual_seed(42)
 
 model_0 = LRM()
 
-with torch.inference_mode():
-    y_preds = model_0(X_test)
-
-plot_predictions(predictions=y_preds)
-
 # We need a loss function and an optimizer to start training
 # A loss function calculates how far off your model is from the desired output and the optimizer modifies the model to minimize the loss
 
@@ -82,15 +77,35 @@ optimizer = torch.optim.SGD(params=model_0.parameters(),
 #   4. Backward pass (backpropagation)
 #   5. Optimizer step (gradient descent)
 
-epochs = 1
+epochs = 1000
 
 # 0. Loop
 for epoch in range(epochs):
     # Set the model to training mode
     model_0.train() # train mode in PyTorch sets all parameters that require gradients to require gradients
 
-    #
+    # 1. Forward pass
+    # with torch.inference_mode():
+    y_preds = model_0(X_train)
 
+    # 2. Calculate the loss
+    loss = loss_fn(y_preds, y_train)
+    print("Loss:", loss.item())
+    if loss.item() < 0.01:
+        break
 
+    # 3. Optimizer zero grad
+    optimizer.zero_grad()
+
+    # 4.Perform back propagation
+    loss.backward()
+
+    # 5. Step the optimizer (perform gradient descent)
+    optimizer.step()
+
+with torch.inference_mode():
+    y_preds_new = model_0(X_test)
+
+plot_predictions(predictions=y_preds_new)
 
 
