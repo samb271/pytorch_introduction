@@ -55,27 +55,33 @@ def plot_predictions(train_data=X_train,
 
     plt.show();
 
+
 # Build model
 
-torch.manual_seed(42)
+# torch.manual_seed(42)
 
 model_0 = LRM()
 
-# We need a loss function and an optimizer to start training
-# A loss function calculates how far off your model is from the desired output and the optimizer modifies the model to minimize the loss
+# with torch.inference_mode():
+#   y_preds_init = model_0(X_test)
+
+# plot_predictions(predictions=y_preds_init)
+
+# # We need a loss function and an optimizer to start training
+# # A loss function calculates how far off your model is from the desired output and the optimizer modifies the model to minimize the loss
 
 loss_fn = nn.L1Loss()
 
 optimizer = torch.optim.SGD(params=model_0.parameters(),
                             lr=0.01)
 
-# Setup training loop
-#   0. Loop through data
-#   1. Forward pass
-#   2. Calculate the loss
-#   3. Optimizer zero grad
-#   4. Backward pass (backpropagation)
-#   5. Optimizer step (gradient descent)
+# # Setup training loop
+# #   0. Loop through data
+# #   1. Forward pass
+# #   2. Calculate the loss
+# #   3. Optimizer zero grad
+# #   4. Backward pass (backpropagation)
+# #   5. Optimizer step (gradient descent)
 
 epochs = 1000
 
@@ -91,7 +97,7 @@ for epoch in range(epochs):
     # 2. Calculate the loss
     loss = loss_fn(y_preds, y_train)
     print("Loss:", loss.item())
-    if loss.item() < 0.01:
+    if loss.item() < 0.0000001:
         break
 
     # 3. Optimizer zero grad
